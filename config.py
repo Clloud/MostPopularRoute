@@ -1,3 +1,10 @@
 class Config:
     DATASET_ROOT_DIR = '../Geolife Trajectories 1.3/Data'
-    DATASET_SCALE = 10
+    DATASET_SCALE = 0
+
+    GROUP_SIZE_THRESHOLD = 10
+    COHERENCE_THRESHOLD = 0.5
+
+    SCALING_FACTOR = 1
+    TURNING_ALPHA = 1
+    TURNING_BETA = 1

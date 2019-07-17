@@ -32,12 +32,22 @@ class Preprocessor:
         for index in range(len(temp)):
             if index < 6:
                 continue
+            # get current point's location
             t = temp[index].strip().split(',')
             point = Point(float(t[0]), float(t[1]))
+
+            # get next point's location
+            if index < len(temp) - 1:
+                next_t = temp[index + 1].strip().split(',')
+            
+            # calculate current point's moving direction
+            point.calculate_moving_direction(float(next_t[0]), float(next_t[1]))
+
             if self.__filter(point):
                 self.points.append(point)
 
     def __filter(self, point):
+        # check if the point is in Beijing
         if (point.longitude > 116.2 and point.longitude < 116.55
             and point.latitude > 39.75 and point.latitude < 40.10):
             return True
