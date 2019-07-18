@@ -9,10 +9,10 @@ preprocessor = Preprocessor(
     Config.DATASET_ROOT_DIR,
     Config.DATASET_SCALE)
 points = Points(preprocessor.get_points())
+print("Total: {} points".format(len(points)))
 
 # use coherence expanded algorithm to form clusters
 clusters = Cluster(points).coherence_expanding()
 
 # generate trajectory figures
-print("Total: {} points".format(len(points)))
-Figure.scatter(points)
+# Figure.scatter(points)

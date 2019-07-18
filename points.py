@@ -1,3 +1,6 @@
+import math
+
+
 class Points:
     def __init__(self, data):
         self.data = data
@@ -18,4 +21,14 @@ class Points:
     
     def range_query(self, point, radius):
         # implement this
-        return []
+        result = []
+        for pt in self.data:
+            if self.distance(pt, point) <= radius and (not pt.classified):
+                result.append(pt)
+        return result
+    
+    @staticmethod
+    def distance(p, q):
+        delta_x = p.latitude - q.latitude
+        delta_y = p.longitude - q.longitude
+        return math.sqrt(delta_x ** 2 + delta_y ** 2)

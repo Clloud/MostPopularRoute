@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 class Figure:
     face_color = (42/255, 50/255, 61/255)
-    size = 0.5
+    size = 2
     color = (253/255, 10/255, 0/255)
     edge_color = "none"
 
@@ -13,9 +13,9 @@ class Figure:
         y_values = [point.latitude for point in points]
 
         plt.figure(facecolor=cls.face_color, figsize=(8, 7))
-        plt.title("Trajectory Points", fontsize=16, c="white")
-        plt.xlabel("latitude", fontsize=11, c="white")
-        plt.ylabel("longitude", fontsize=11, c="white")
+        plt.title("Trajectory Points", fontsize=16, color="white")
+        plt.xlabel("latitude", fontsize=11, color="white")
+        plt.ylabel("longitude", fontsize=11, color="white")
         plt.tick_params(axis="both", which="major",
                         labelsize=8, labelcolor="white")
         plt.scatter(x_values, y_values,

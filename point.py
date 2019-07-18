@@ -2,15 +2,21 @@ import math
 
 
 class Point:
-    def __init__(self, latitude, longitude):
+    count = 0
+
+    def __init__(self, latitude, longitude, trajectory_id):
         self.latitude = latitude
         self.longitude = longitude
+        self.trajectory_id = trajectory_id
+
+        self.id = Point.count
+        Point.count += 1
         self.moving_direction = (0, 0)
         self.classified = False
 
     def __str__(self):
-        return "latitude: {}, longtitude: {}, moving_direction: {}".format(
-            self.latitude, self.longitude, self.moving_direction)
+        return "Trajectory {} Point {} latitude: {}, longtitude: {}, moving_direction: {}".format(
+            self.trajectory_id, self.id, self.latitude, self.longitude, self.moving_direction)
 
     def calculate_moving_direction(self, latitude, longitude):
         x = latitude - self.latitude

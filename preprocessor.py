@@ -17,6 +17,7 @@ class Preprocessor:
         return self.points
 
     def __scan_directories(self):
+        trajectory_id = 0
         for directory in self.directories:
             full_path = self.root_path + '/' + directory
             if os.path.isdir(full_path) and int(directory) <= self.scale:
@@ -25,16 +26,17 @@ class Preprocessor:
                     files = os.listdir(data_file_dir)
                     for file in files:
                         with open(data_file_dir + file) as data:
-                            self.__get_point(data)
+                            self.__get_point(data, trajectory_id)
+                        trajectory_id += 1
     
-    def __get_point(self, data):
+    def __get_point(self, data, trajectory_id):
         temp = data.readlines()
         for index in range(len(temp)):
             if index < 6:
                 continue
             # get current point's location
             t = temp[index].strip().split(',')
-            point = Point(float(t[0]), float(t[1]))
+            point = Point(float(t[0]), float(t[1]), trajectory_id)
 
             # get next point's location
             if index < len(temp) - 1:
