@@ -13,7 +13,7 @@ class Cluster:
             if not point.classified:
                 point.classified = True
                 cluster = self.expand(point)
-                if len(cluster) > Config.GROUP_SIZE_THRESHOLD:
+                if len(cluster) >= Config.GROUP_SIZE_THRESHOLD:
                     for point in cluster:
                         point.classified = True
                     clusters.append(cluster)
@@ -21,9 +21,14 @@ class Cluster:
 
     def expand(self, point):
         result = set()
+        # to save points that has been checked
+        searched = set()
+        # point.id
         seeds = deque()
+        # point
         seeds_dict = dict()
-    
+
+        searched.add(point.id)
         seeds.append(point.id)
         seeds_dict[point.id] = point
         result.add(point)
@@ -34,9 +39,11 @@ class Cluster:
 
             points = self.points.range_query(seed, Config.RADIUS)
             for pt in points:
-                if (not pt.classified) \
-                    and self.__calculate_coherence(seed, pt) >= Config.COHERENCE_THRESHOLD \
-                    and pt.id not in seeds:
+                searched.add(pt.id)
+                if self.__calculate_coherence(seed, pt) >= Config.COHERENCE_THRESHOLD \
+                    and (not pt.classified) \
+                    and pt.id not in seeds \
+                    and pt.id not in searched:
                     seeds.append(pt.id)
                     seeds_dict[pt.id] = pt
                     result.add(pt)
@@ -45,7 +52,7 @@ class Cluster:
     def __calculate_coherence(self, p, q):
         coherence = math.exp(- (self.__distance(p, q) / Config.SCALING_FACTOR) ** Config.TURNING_ALPHA) \
             * (self.__angle_sin_value(p, q) ** Config.TURNING_BETA)
-        print("{}\n{}\n{}\n".format(p, q, coherence))
+        # print("{}\n{}\n{}\n".format(p, q, coherence))
         return coherence
 
     def __distance(self, p, q):

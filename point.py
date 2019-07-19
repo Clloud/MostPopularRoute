@@ -4,7 +4,7 @@ import math
 class Point:
     count = 0
 
-    def __init__(self, latitude, longitude, trajectory_id):
+    def __init__(self, latitude, longitude, trajectory_id=-1):
         self.latitude = latitude
         self.longitude = longitude
         self.trajectory_id = trajectory_id

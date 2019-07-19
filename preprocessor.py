@@ -50,7 +50,8 @@ class Preprocessor:
 
     def __filter(self, point):
         # check if the point is in Beijing
-        if (point.longitude > 116.2 and point.longitude < 116.55
-            and point.latitude > 39.75 and point.latitude < 40.10):
-            return True
-        return False
+        # if (point.longitude > 116.2 and point.longitude < 116.55
+        #     and point.latitude > 39.75 and point.latitude < 40.10):
+        #     return True
+        # return False
+        return True

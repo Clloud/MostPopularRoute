@@ -2,6 +2,7 @@ from config import Config
 from preprocessor import Preprocessor
 from points import Points
 from cluster import Cluster
+from transfer_network import TransferNetwork
 from figure import Figure
 
 # get points from trajectories
@@ -12,7 +13,11 @@ points = Points(preprocessor.get_points())
 print("Total: {} points".format(len(points)))
 
 # use coherence expanded algorithm to form clusters
-clusters = Cluster(points).coherence_expanding()
+# clusters = Cluster(points).coherence_expanding()
+# print(len(clusters))
+# network = TransferNetwork(points, clusters)
 
 # generate trajectory figures
-# Figure.scatter(points)
+# figure = Figure()
+# figure.scatter(points).show()
+# Figure.transfer_network(points, network)
