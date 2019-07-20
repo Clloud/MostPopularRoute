@@ -2,7 +2,7 @@ import math
 
 
 class Config:
-    DATASET_ROOT_DIR = '../test/Data'
+    DATASET_ROOT_DIR = '../../test/Data'
     DATASET_SCALE = 0
 
     GROUP_SIZE_THRESHOLD = 2
