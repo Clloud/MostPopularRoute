@@ -1,16 +1,17 @@
 from point import Point
+from points import Points
 import os
 
 class Preprocessor:
     def __init__(self, root_path, scale):
         # GPS trajectory points
-        self.points = []
+        self.points = Points()
         # dataset root path
         self.root_path = root_path
         # dataset directories
         self.directories = os.listdir(root_path)
         # dataset scale
-        self.scale = scale    
+        self.scale = scale
 
     def get_points(self):
         self.__scan_directories()

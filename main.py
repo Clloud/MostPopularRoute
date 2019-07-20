@@ -9,7 +9,7 @@ from figure import Figure
 preprocessor = Preprocessor(
     Config.DATASET_ROOT_DIR,
     Config.DATASET_SCALE)
-points = Points(preprocessor.get_points())
+points = preprocessor.get_points()
 print("Total: {} points".format(len(points)))
 
 # use coherence expanded algorithm to form clusters
