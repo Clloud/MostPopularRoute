@@ -1,0 +1,29 @@
+>> CONFIGURATIONS
+DATASET_ROOT_DIR: 'E:\Files\Project\2019ÊîÆÚ¿ÆÑÐ\test1\Data'
+DATASET_SCALE = 0
+TRAJACTORY_SCALE = 20
+
+GROUP_SIZE_THRESHOLD ¦Õ = 2
+COHERENCE_THRESHOLD ¦Ó = 0.3
+SCALING_FACTOR ¦Ä = 1.2
+TURNING_ALPHA ¦Á = 5
+TURNING_BETA ¦Â = 2
+RADIUS r = 0.474
+
+----------------------------------------------------------------
+
+>> RESULT
+Points: 47Clusters: 3
+Points in clusters: 12.8%
+Running time: 0.000 s
+
+10% coherence < 0.000
+20% coherence < 0.000
+30% coherence < 0.000
+40% coherence < 0.000
+50% coherence < 0.000
+60% coherence < 0.000
+70% coherence < 0.000
+80% coherence < 0.000
+90% coherence < 0.000
+100% coherence < 1.000

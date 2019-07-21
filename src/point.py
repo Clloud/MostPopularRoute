@@ -15,8 +15,8 @@ class Point:
         self.classified = False
 
     def __str__(self):
-        return "Trajectory {} Point {} latitude: {}, longtitude: {}, moving_direction: {}".format(
-            self.trajectory_id, self.id, self.latitude, self.longitude, self.moving_direction)
+        return "Trajectory {} Point {} (longitude,latitude): ({}, {}), moving_direction: {}".format(
+            self.trajectory_id, self.id, self.longitude, self.latitude, self.moving_direction)
 
     def calculate_moving_direction(self, latitude, longitude):
         x = latitude - self.latitude

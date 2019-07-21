@@ -1,5 +1,6 @@
 from point import Point
 from points import Points
+from config import Config
 import os
 
 class Preprocessor:
@@ -29,6 +30,8 @@ class Preprocessor:
                         with open(data_file_dir + file) as data:
                             self.__get_point(data, trajectory_id)
                         trajectory_id += 1
+                        if trajectory_id > Config.TRAJACTORY_SCALE:
+                            break
     
     def __get_point(self, data, trajectory_id):
         temp = data.readlines()
@@ -50,9 +53,13 @@ class Preprocessor:
                 self.points.append(point)
 
     def __filter(self, point):
-        # check if the point is in Beijing
-        # if (point.longitude > 116.2 and point.longitude < 116.55
-        #     and point.latitude > 39.75 and point.latitude < 40.10):
-        #     return True
-        # return False
-        return True
+        # check if the point is in the given area
+        if not Config.RANGE['status']:
+            return True
+        else:
+            if (point.longitude > Config.RANGE['longitude_lower_bound']
+                and point.longitude < Config.RANGE['longitude_upper_bound']
+                and point.latitude > Config.RANGE['latitude_lower_bound']
+                and point.latitude < Config.RANGE['latitude_upper_bound']):
+                return True
+            return False

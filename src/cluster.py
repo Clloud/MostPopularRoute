@@ -1,11 +1,12 @@
 from collections import deque
 from config import Config
 import math
-
+import time
 
 class Cluster:
     def __init__(self, points):
         self.points = points
+        self.coherences = []
 
     def coherence_expanding(self):
         clusters = []
@@ -39,7 +40,6 @@ class Cluster:
 
             points = self.points.range_query(seed, Config.RADIUS)
             for pt in points:
-                searched.add(pt.id)
                 if self.__calculate_coherence(seed, pt) >= Config.COHERENCE_THRESHOLD \
                     and (not pt.classified) \
                     and pt.id not in seeds \
@@ -47,12 +47,14 @@ class Cluster:
                     seeds.append(pt.id)
                     seeds_dict[pt.id] = pt
                     result.add(pt)
+                searched.add(pt.id)                
         return list(result)
 
     def __calculate_coherence(self, p, q):
         coherence = math.exp(- (self.__distance(p, q) / Config.SCALING_FACTOR) ** Config.TURNING_ALPHA) \
             * (self.__angle_sin_value(p, q) ** Config.TURNING_BETA)
         # print("{}\n{}\n{}\n".format(p, q, coherence))
+        self.coherences.append(coherence)
         return coherence
 
     def __distance(self, p, q):

@@ -2,29 +2,80 @@ import matplotlib.pyplot as plt
 
 
 class Figure:
-    face_color = (42/255, 50/255, 61/255)
-    size = 10
-    color = (253/255, 10/255, 0/255)
-    edge_color = "none"
+    def __init__(self, theme="light"):
+        if theme == "dark":
+            # dark theme
+            self.background = "#2A323D"
+            self.dot_color = "#DC143C"
+            self.font_color = "#ffffff"
+        else:
+            # light theme
+            self.background = "#ffffff"
+            self.dot_color = "#238BC1"
+            self.font_color = "#000000"
 
-    def scatter(self, points):
-        x_values = [point.longitude for point in points]
-        y_values = [point.latitude for point in points]
+        self.default_linewidth = 1
+        self.default_size = 150
+        self.edge_color = "none"
+        plt.figure(facecolor=self.background, figsize=(15, 7))
 
-        plt.figure(facecolor=self.face_color, figsize=(8, 7))
-        plt.title("Trajectory Points", fontsize=16, color="white")
-        plt.xlabel("longitude", fontsize=11, color="white")
-        plt.ylabel("latitude", fontsize=11, color="white")
+    def scatter(self, points, color='', marker='o', alpha=1):
+        # draw points distribution graph
+        plt.xlabel("longitude", fontsize=11, color=self.font_color)
+        plt.ylabel("latitude", fontsize=11, color=self.font_color)
         plt.tick_params(axis="both", which="major",
-                        labelsize=8, labelcolor="white")
+            labelsize=8, labelcolor=self.font_color)
+
+        x_values = []
+        y_values = []
+        for point in points:
+            x_values.append(point.longitude)
+            y_values.append(point.latitude)
         plt.scatter(x_values, y_values,
-                    c=self.color, s=self.size, edgecolor=self.edge_color, alpha=0.8)
+                    c=color or self.dot_color,
+                    s=self.default_size / (len(points) ** 0.5),
+                    edgecolor=self.edge_color,
+                    alpha=alpha,
+                    marker=marker)
         return self
 
-    def transfer_network(self, points, network):
+    def network(self, network, color=""):
+        # draw transfer network graph
+        plt.xlabel("longitude", fontsize=11, color=self.font_color)
+        plt.ylabel("latitude", fontsize=11, color=self.font_color)
+        plt.tick_params(axis="both", which="major",
+            labelsize=8, labelcolor=self.font_color)
+
+        for i in range(len(network.edges)):
+            for j in range(len(network.edges)):
+                if network.edges[i][j] != -1:
+                    x1, x2 = network.nodes[i].longitude, network.nodes[j].longitude
+                    y1, y2 = network.nodes[i].latitude, network.nodes[j].latitude
+                    plt.plot([x1, x2], [y1, y2],
+                        '-s',
+                        color=color or self.dot_color,
+                        linewidth=self.default_linewidth)
+        return self
+
+    def scatter_and_network(self, points, network, cluster_points=[]):
+        # draw points distribution graph and transfer network graph on the same figure
+        plt.subplot(121, facecolor=self.background)
+        plt.title("Trajectory Points", fontsize=16, color=self.font_color)
+        self.scatter(points)
+        self.scatter(cluster_points, color="red")
+
+        plt.subplot(122, facecolor=self.background)
+        plt.title("Transfer Network", fontsize=16, color=self.font_color)
+        self.scatter(points, color="#238BC1")        
+        self.network(network, color="#DC143C")
+
         return self
 
     def show(self):
-        plt.savefig('Trajectories.png',
-            facecolor=self.face_color, transparent=True)
         plt.show()
+        return self
+
+    def save(self):
+        plt.savefig('../out/result.png',
+            facecolor=self.background)
+        return self

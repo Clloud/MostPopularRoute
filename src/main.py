@@ -10,14 +10,11 @@ preprocessor = Preprocessor(
     Config.DATASET_ROOT_DIR,
     Config.DATASET_SCALE)
 points = preprocessor.get_points()
-print("Total: {} points".format(len(points)))
 
 # use coherence expanded algorithm to form clusters
-# clusters = Cluster(points).coherence_expanding()
-# print(len(clusters))
-# network = TransferNetwork(points, clusters)
+clusters = Cluster(points).coherence_expanding()
+network = TransferNetwork(points, clusters)
 
 # generate trajectory figures
-# figure = Figure()
-# figure.scatter(points).show()
-# Figure.transfer_network(points, network)
+figure = Figure(theme='light')
+figure.scatter_and_network(points, clusters, network).show()
