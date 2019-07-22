@@ -49,6 +49,22 @@ class Config_2:
     RADIUS = SCALING_FACTOR * \
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
+class Config_3:
+    DATASET_ROOT_DIR = 'E:\\Files\\Project\\2019暑期科研\\test3\\Data'
+    DATASET_SCALE = 0
+    TRAJACTORY_SCALE = 20
+    RANGE = {
+        'status': False
+    }
+
+    GROUP_SIZE_THRESHOLD = 3
+    COHERENCE_THRESHOLD = 0.49
+    SCALING_FACTOR = 1.1
+    TURNING_ALPHA = 5
+    TURNING_BETA = 2
+
+    RADIUS = SCALING_FACTOR * \
+        ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 class Config(Config_2):
     pass
