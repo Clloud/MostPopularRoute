@@ -1,29 +1,31 @@
 >> CONFIGURATIONS
-DATASET_ROOT_DIR: 'E:\Files\Project\2019暑期科研\test1\Data'
-DATASET_SCALE = 0
-TRAJACTORY_SCALE = 20
+DATASET_ROOT_DIR: 'E:\Files\Project\2019暑期科研\test2\Data'
+DATASET_SCALE = 3
+TRAJACTORY_SCALE = 4
 
-GROUP_SIZE_THRESHOLD φ = 2
-COHERENCE_THRESHOLD τ = 0.3
-SCALING_FACTOR δ = 1.2
+GROUP_SIZE_THRESHOLD φ = 3
+COHERENCE_THRESHOLD τ = 0.99
+SCALING_FACTOR δ = 100
 TURNING_ALPHA α = 5
 TURNING_BETA β = 2
-RADIUS r = 0.474
+RADIUS r = 975207708749.995
 
 ----------------------------------------------------------------
 
 >> RESULT
-Points: 47Clusters: 3
-Points in clusters: 12.8%
-Running time: 0.000 s
+Points: 1154
+Clusters: 22
+Points in clusters: 58.8%
+Running time: 8.772 s
 
+Coherence data distribution:
 10% coherence < 0.000
 20% coherence < 0.000
-30% coherence < 0.000
-40% coherence < 0.000
-50% coherence < 0.000
-60% coherence < 0.000
-70% coherence < 0.000
-80% coherence < 0.000
-90% coherence < 0.000
+30% coherence < 0.026
+40% coherence < 0.114
+50% coherence < 0.275
+60% coherence < 0.490
+70% coherence < 0.700
+80% coherence < 0.873
+90% coherence < 0.970
 100% coherence < 1.000

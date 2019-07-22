@@ -50,5 +50,5 @@ class Config_2:
         ((-math.log(COHERENCE_THRESHOLD)) ** -TURNING_ALPHA)
 
 
-class Config(Config_1):
+class Config(Config_2):
     pass

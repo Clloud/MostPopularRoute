@@ -37,10 +37,11 @@ config_text += "RADIUS r = {:.3f}\n".format(Config.RADIUS)
 config_text += "\n----------------------------------------------------------------\n\n"
 
 info = ">> RESULT\n"
-info += "Points: {}".format(len(points))
+info += "Points: {}\n".format(len(points))
 info += "Clusters: {}\n".format(len(clusters))
 info += "Points in clusters: {:.1f}%\n".format(len(cluster_points) / len(points) * 100)
 info += "Running time: {:.3f} s\n\n".format(end_time - start_time)
+info += "Coherence data distribution:\n"
 for i in range(1, 11):
     info += "{}% coherence < {:.3f}\n".format(i * 10,
         coherences[int(i / 10 * len(coherences)) - 1])
@@ -49,6 +50,14 @@ print(config_text + info)
 with open("../out/result.txt", "w") as file:
     file.write(config_text + info)
 
+# save coherence data
+with open("../out/coherence.txt", "w") as file:
+    file.write("Coherence data:\n")
+    for coherence in coherences:
+        file.write("{}\n".format(coherence))
+
 # generate analysis graph
 figure = Figure(theme='light')
 figure.scatter_and_network(points, network, cluster_points).save().show()
+
+
