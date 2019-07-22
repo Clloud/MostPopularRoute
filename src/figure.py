@@ -16,6 +16,7 @@ class Figure:
 
         self.default_linewidth = 1
         self.default_size = 150
+        self.default_markersize = 150
         self.edge_color = "none"
         plt.figure(facecolor=self.background, figsize=(15, 7))
 
@@ -51,10 +52,14 @@ class Figure:
                 if network.edges[i][j] != -1:
                     x1, x2 = network.nodes[i].longitude, network.nodes[j].longitude
                     y1, y2 = network.nodes[i].latitude, network.nodes[j].latitude
+                    markersize = self.default_markersize / len(network.nodes)
+                    markersize = markersize if markersize < 6 else 6
+                    markersize = markersize if markersize > 3 else 3
                     plt.plot([x1, x2], [y1, y2],
                         '-s',
                         color=color or self.dot_color,
-                        linewidth=self.default_linewidth)
+                        linewidth=self.default_linewidth,
+                        markersize=markersize)
         return self
 
     def scatter_and_network(self, points, network, cluster_points=[]):
@@ -75,7 +80,7 @@ class Figure:
         plt.show()
         return self
 
-    def save(self):
-        plt.savefig('../out/result.png',
+    def save(self, output_path="out"):
+        plt.savefig('{}\\analysis.png'.format(output_path),
             facecolor=self.background)
         return self

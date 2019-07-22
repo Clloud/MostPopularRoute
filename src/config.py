@@ -9,14 +9,14 @@ class Config_1:
         'status': False
     }
 
-    GROUP_SIZE_THRESHOLD = 2
-    COHERENCE_THRESHOLD = 0.3
-    SCALING_FACTOR = 1.2
+    GROUP_SIZE_THRESHOLD = 3
+    COHERENCE_THRESHOLD = 0.4
+    SCALING_FACTOR = 1.5
     TURNING_ALPHA = 5
     TURNING_BETA = 2
 
     RADIUS = SCALING_FACTOR * \
-        ((-math.log(COHERENCE_THRESHOLD)) ** -TURNING_ALPHA)
+        ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 
 class Config_2:
@@ -40,14 +40,14 @@ class Config_2:
     # 连贯性阈值τ
     COHERENCE_THRESHOLD = 0.99
     # 比例参数δ
-    SCALING_FACTOR = 100
+    SCALING_FACTOR = 15e-4
     # 转向参数α
     TURNING_ALPHA = 5
     # 转向参数β
     TURNING_BETA = 2
 
     RADIUS = SCALING_FACTOR * \
-        ((-math.log(COHERENCE_THRESHOLD)) ** -TURNING_ALPHA)
+        ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 
 class Config(Config_2):
