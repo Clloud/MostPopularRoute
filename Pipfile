@@ -6,8 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-rtree = {path = "E:/Downloads/Rtree-0.8.3-cp36-cp36m-win32.whl"}
+rtree = "*"
 matplotlib = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.6"

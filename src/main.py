@@ -3,6 +3,7 @@ from preprocessor import Preprocessor
 from points import Points
 from cluster import Cluster
 from transfer_network import TransferNetwork
+from transfer_probability import TransferProbability
 from figure import Figure
 
 # get points from trajectories
@@ -15,6 +16,9 @@ points = preprocessor.get_points()
 clusters = Cluster(points).coherence_expanding()
 network = TransferNetwork(points, clusters)
 
+# derive transfer probability
+network = TransferProbability(network)
+
 # generate trajectory figures
-figure = Figure(theme='light')
-figure.scatter_and_network(points, clusters, network).show()
+# figure = Figure(theme='light')
+# figure.scatter_and_network(points, clusters, network).show()
