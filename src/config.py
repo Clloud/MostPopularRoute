@@ -2,32 +2,29 @@ import math
 
         
 class Config_1:
-    DATASET_ROOT_DIR = 'E:\\Files\\Project\\2019暑期科研\\test1\\Data'
-    DATASET_SCALE = 0
-    TRAJACTORY_SCALE = 20
-    RANGE = {
+    DATASET_ROOT_DIR = 'E:/Files/Project/2019暑期科研/test1/Data'  # The data set root directory
+    DATASET_SCALE    = 0                # How many users' trajectory data are choosed
+    TRAJACTORY_SCALE = 20               # How many trajectories are choosed per user
+    RANGE = {                           # To pick trajectory points within the range
         'status': False
     }
 
-    GROUP_SIZE_THRESHOLD = 3
-    COHERENCE_THRESHOLD = 0.4
-    SCALING_FACTOR = 1.5
-    TURNING_ALPHA = 5
-    TURNING_BETA = 2
+    GROUP_SIZE_THRESHOLD     = 3        # group size threshold φ
+    COHERENCE_THRESHOLD      = 0.4      # coherence threshold τ
+    SCALING_FACTOR           = 1.5      # scaling factor δ
+    TURNING_ALPHA            = 5        # tuning parameter α
+    TURNING_BETA             = 2        # tuning parameter β
 
     RADIUS = SCALING_FACTOR * \
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 
 class Config_2:
-    # 数据集根目录
-    DATASET_ROOT_DIR = 'E:\\Files\\Project\\2019暑期科研\\test2\\Data'
-    # 选取前几个用户的轨迹数据
-    DATASET_SCALE = 3
-    # 选取前几条轨迹
-    TRAJACTORY_SCALE = 4
-    # 有效坐标点的范围(False表示范围无限制)
-    RANGE = {
+
+    DATASET_ROOT_DIR = 'E:/Files/Project/2019暑期科研/test2/Data'  # The data set root directory
+    DATASET_SCALE    = 3                # How many users' trajectory data are choosed
+    TRAJACTORY_SCALE = 4                # How many trajectories are choosed per user
+    RANGE = {                           # To pick trajectory points within the range
         'status': True,
         'longitude_upper_bound': 116.32,
         'longitude_lower_bound': 116.304,
@@ -35,33 +32,28 @@ class Config_2:
         'latitude_lower_bound': 40.004,
     }
 
-    # 组尺寸φ
-    GROUP_SIZE_THRESHOLD = 3
-    # 连贯性阈值τ
-    COHERENCE_THRESHOLD = 0.99
-    # 比例参数δ
-    SCALING_FACTOR = 15e-4
-    # 转向参数α
-    TURNING_ALPHA = 5
-    # 转向参数β
-    TURNING_BETA = 2
+    GROUP_SIZE_THRESHOLD    = 3         # group size threshold φ
+    COHERENCE_THRESHOLD     = 0.99      # coherence threshold τ
+    SCALING_FACTOR          = 15e-4     # scaling factor δ
+    TURNING_ALPHA           = 5         # tuning parameter α
+    TURNING_BETA            = 2         # tuning parameter β
 
     RADIUS = SCALING_FACTOR * \
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 class Config_3:
-    DATASET_ROOT_DIR = 'E:\\Files\\Project\\2019暑期科研\\test3\\Data'
-    DATASET_SCALE = 0
-    TRAJACTORY_SCALE = 20
-    RANGE = {
+    DATASET_ROOT_DIR = 'E:/Files/Project/2019暑期科研/test3/Data'  # The data set root directory
+    DATASET_SCALE    = 0                # How many users' trajectory data are choosed
+    TRAJACTORY_SCALE = 20               # How many trajectories are choosed per user
+    RANGE = {                           # To pick trajectory points within the range
         'status': False
     }
 
-    GROUP_SIZE_THRESHOLD = 3
-    COHERENCE_THRESHOLD = 0.49
-    SCALING_FACTOR = 1.1
-    TURNING_ALPHA = 5
-    TURNING_BETA = 2
+    GROUP_SIZE_THRESHOLD    = 3         # group size threshold φ
+    COHERENCE_THRESHOLD     = 0.49      # coherence threshold τ
+    SCALING_FACTOR          = 1.1       # scaling factor δ
+    TURNING_ALPHA           = 5         # tuning parameter α
+    TURNING_BETA            = 2         # tuning parameter β
 
     RADIUS = SCALING_FACTOR * \
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
