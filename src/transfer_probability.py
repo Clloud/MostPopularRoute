@@ -32,12 +32,14 @@ class TransferProbability:
     def prd(self, d, nodei, nodej):
         sum_ij, sum_i = 0, 0
         # self.edges中所有轨迹中通过ni到nj的边
-        for t in self.edges[self.nodes.index(nodei)][self.nodes.index(nodej)]:
-            sum_ij += self.func(t, d)
+        if self.edges[self.nodes.index(nodei)][self.nodes.index(nodej)] != -1:
+            for t in self.edges[self.nodes.index(nodei)][self.nodes.index(nodej)]:
+                sum_ij += self.func(t, d)
         # self.edges中所有轨迹中通过ni出去的边
         for col in range(len(self.edges)):
-            for t in self.edges[self.nodes.index(nodei)][col]:
-                sum_i += self.func(t, d)
+            if self.edges[self.nodes.index(nodei)][col] != -1:
+                for t in self.edges[self.nodes.index(nodei)][col]:
+                    sum_i += self.func(t, d)
         # if sum_i == 0:
         #    return 0
         return sum_ij / sum_i
@@ -45,11 +47,12 @@ class TransferProbability:
     def func(self, traj, d):
         dists = sys.maxsize
         if len(self.trajectories[traj]) == 1:
-            dists = math.pow(((d.latitude - self.trajectories[traj][0].latitude) ** 2 +
-                              (d.longitude - self.trajectories[traj][0].longitude) ** 2), 0.5)
+            dists = math.pow(((d.latitude - self.nodes[self.trajectories[traj][0]].latitude) ** 2 +
+                              (d.longitude - self.nodes[self.trajectories[traj][0]].longitude) ** 2), 0.5)
         elif len(self.trajectories[traj]) >= 2:
             for index in range(len(self.trajectories[traj]) - 1):
-                new_dist = self.get_dist(d, self.trajectories[traj][index], self.trajectories[traj][index + 1])
+                new_dist = self.get_dist(d, self.nodes[self.trajectories[traj][index]],
+                                         self.nodes[self.trajectories[traj][index + 1]])
                 if new_dist < dists:
                     dists = new_dist
         return math.exp(-dists)
@@ -74,9 +77,9 @@ class TransferProbability:
         TR = [node for node in self.nodes if
               not (node == d or self.edges[self.nodes.index(node)] == [-1 for j in range(len(self.edges))])]
         p_lefttop = p[np.ix_([self.nodes.index(tr) for tr in TR], [self.nodes.index(tr) for tr in TR])]
-        p_leftbottom = p[np.ix_([self.nodes.index(abs) for abs in ABS], [self.nodes.index(tr) for tr in TR])]
-        p_righttop = p[np.ix_([self.nodes.index(tr) for tr in TR], [self.nodes.index(abs) for abs in ABS])]
-        p_rightbottom = p[np.ix_([self.nodes.index(abs) for abs in ABS], [self.nodes.index(abs) for abs in ABS])]
+        p_leftbottom = p[np.ix_([self.nodes.index(ab) for ab in ABS], [self.nodes.index(tr) for tr in TR])]
+        p_righttop = p[np.ix_([self.nodes.index(tr) for tr in TR], [self.nodes.index(ab) for ab in ABS])]
+        p_rightbottom = p[np.ix_([self.nodes.index(ab) for ab in ABS], [self.nodes.index(ab) for ab in ABS])]
         return p_lefttop, p_righttop
 
     def acquire(self, p):
