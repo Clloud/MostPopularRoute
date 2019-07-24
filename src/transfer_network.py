@@ -5,6 +5,7 @@ class TransferNetwork():
     def __init__(self, points, clusters):
         self.nodes = []
         self.edges = []
+        self.trajectories = dict()
         self.create_transfer_node(clusters)
         self.create_transfer_edge(points, clusters)
 
@@ -45,8 +46,9 @@ class TransferNetwork():
                 i = previous_point.cluster_id
                 j = point.cluster_id
                 # 保存路径
-                self.edges[i][j] = t_id
-                self.edges[j][j] = t_id
+                self.save_edge(i, j, t_id)
+                self.save_edge(j, i, t_id)
+                self.save_trajectory(i, j, t_id)
                 previous_point = point
             else:
                 previous_point = points[index]
@@ -59,7 +61,19 @@ class TransferNetwork():
                 return i
         return len(points) - 1
                 
-    
+    def save_edge(self, i, j, t_id):
+        if self.edges[i][j] == -1:
+            self.edges[i][j] = []
+        self.edges[i][j].append(t_id)
+
+    def save_trajectory(self, i, j, t_id):
+        if t_id not in self.trajectories.keys():
+            self.trajectories[t_id] = []
+        else:
+            self.trajectories[t_id].pop()
+        self.trajectories[t_id].append(i)
+        self.trajectories[t_id].append(j)
+
     # # 二维矩阵保存 transfer edge ，矩阵的行和列均为 cluster的序号（无向图则该矩阵为对称的）
     # # -1 表示两个cluster之间没有边相连, >=0 的数值表示相连边属于哪一条路径（即trajectory_id）
     # def create_transfer_edge(self, points, clusters):
