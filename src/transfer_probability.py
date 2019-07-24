@@ -8,6 +8,7 @@ class TransferProbability:
     def __init__(self, network):
         self.nodes = network.nodes
         self.edges = network.edges
+        self.trajectories = network.trajectories
         self.derive()
 
     def derive(self):
@@ -19,11 +20,11 @@ class TransferProbability:
             node.vector = self.cal_vector(q, s)
 
     def transition_probability(self, d, nodei, nodej):
-        if (nodei == d or self.edges[self.nodes.index(nodei)] == [-1 for j in
-                                                                  range(len(self.edges))]) and nodei == nodej:
+        if (nodei == d or self.edges[self.nodes.index(nodei)] == [-1 for j in range(len(self.edges))]) \
+                and nodei == nodej:
             return 1
-        elif (not (nodei == d or self.edges[self.nodes.index(nodei)] == [-1 for j in
-                                                                         range(len(self.edges))])) and nodei != nodej:
+        elif (not (nodei == d or self.edges[self.nodes.index(nodei)] == [-1 for j in range(len(self.edges))])) \
+                and nodei != nodej:
             return self.prd(d, nodei, nodej)
         else:
             return 0
@@ -37,19 +38,20 @@ class TransferProbability:
         for col in range(len(self.edges)):
             for t in self.edges[self.nodes.index(nodei)][col]:
                 sum_i += self.func(t, d)
-        if sum_i == 0:
-            return 0
+        # if sum_i == 0:
+        #    return 0
         return sum_ij / sum_i
 
     def func(self, traj, d):
-        dist = sys.maxsize
-        traj_node = []
-        for node in self.nodes:
-            if node.trajectory_id == traj:
-                traj_node.append(node)
-                if len(traj_node) >= 2 and self.get_dist(d, traj_node[-2], node) < dist:
-                    dist = self.get_dist(d, traj_node[-2], node)
-        dists = dist
+        dists = sys.maxsize
+        if len(self.trajectories[traj]) == 1:
+            dists = math.pow(((d.latitude - self.trajectories[traj][0].latitude) ** 2 +
+                              (d.longitude - self.trajectories[traj][0].longitude) ** 2), 0.5)
+        elif len(self.trajectories[traj]) >= 2:
+            for index in range(len(self.trajectories[traj]) - 1):
+                new_dist = self.get_dist(d, self.trajectories[traj][index], self.trajectories[traj][index + 1])
+                if new_dist < dists:
+                    dists = new_dist
         return math.exp(-dists)
 
     def get_dist(self, d, point1, point2):
