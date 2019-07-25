@@ -1,4 +1,3 @@
-from transfer_network import TransferNetwork
 import math
 import sys
 import numpy as np
@@ -17,7 +16,7 @@ class TransferProbability:
             self.reorganize(p, node)
             q, s = self.reorganize(p, node)
             # q, s = self.acquire(p)
-            node.vector = self.cal_vector(q, s)
+            node.vector = self.cal_vector(node, p, q, s)
 
     def transition_probability(self, d, nodei, nodej):
         # nodei is an absorbing state and i=j
@@ -86,12 +85,19 @@ class TransferProbability:
 
         return math.exp(-dists)
 
-    # 点d与由point1和point2确定的直线之间的欧式距离
+    # 点d与由point1和point2确定的线段之间的欧式距离
     def get_dist(self, d, point1, point2):
-        a = point2.longitude - point1.longitude
-        b = point1.latitude - point2.latitude
-        c = point2.latitude * point1.longitude - point1.latitude * point2.longitude
-        return (math.fabs(a * d.latitude + b * d.longitude + c)) / (math.pow(a * a + b * b, 0.5))
+        cross = (point2.latitude - point1.latitude) * (d.latitude - point1.latitude) + \
+                (point2.longitude - point1.longitude) * (d.longitude - point1.longitude)
+        if cross <= 0:
+            return math.sqrt((d.latitude - point1.latitude) ** 2 + (d.longitude - point1.longitude) ** 2)
+        dist2 = (point2.latitude - point1.latitude) ** 2 + (point2.longitude - point1.longitude) ** 2
+        if cross >= dist2:
+            return math.sqrt((d.latitude - point2.latitude) ** 2 + (d.longitude - point2.longitude) ** 2)
+        r = cross / dist2
+        p_x = point1.latitude + (point2.latitude - point1.latitude) * r
+        p_y = point1.longitude + (point2.longitude - point1.longitude) * r
+        return math.sqrt((d.latitude - p_x) ** 2 + (d.longitude - p_y) ** 2)
 
     # 创建P矩阵
     def create_transition_matrix(self, d):
@@ -117,5 +123,28 @@ class TransferProbability:
     def acquire(self, p):
         pass
 
-    def cal_vector(self, q, s):
-        pass
+    # 矩阵乘方
+    def matrix_multiply(self, a, n):
+        # 初始化为单位矩阵
+        matrix_result = np.identity(a.shape[0])
+        for i in range(n):
+            new_a = np.dot(matrix_result, a)
+            matrix_result = new_a
+        return matrix_result
+
+    # 计算t步之内的概率，这里设置t为transfer network的直径
+    def step_t(self):
+        traj_len = [len(traj) for traj in self.trajectories.values()]
+        return max((traj_len)) - 1
+
+    # 列向量V
+    def cal_vector(self, d, p, q, s):
+        # D=S[*,d]
+        TR = [node for node in self.nodes if
+              not (node == d or self.edges[self.nodes.index(node)] == [-1 for j in range(len(self.edges))])]
+        D = p[np.ix_([self.nodes.index(tr) for tr in TR], [self.nodes.index(d)])]
+        # V=D+Q·D+Q^2·D+...+Q^(t-1)·D
+        v = np.zeros(D.shape)
+        for j in range(0, self.step_t()):
+            v = v + np.dot(self.matrix_multiply(q, j), D)
+        return v

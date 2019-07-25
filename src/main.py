@@ -38,13 +38,14 @@ show_transfer_edges(network)
 test_tp = TransferProbability(network)
 for node in test_tp.nodes:
     print("\n")
-    print((node.latitude, node.longitude))
+    print("node", test_tp.nodes.index(node), ":", (node.latitude, node.longitude))
     p = test_tp.create_transition_matrix(node)
-    print(p)
+    print("P:\n", p)
     q = test_tp.reorganize(p, node)[0]
-    print(q)
+    print("Q:\n", q)
     s = test_tp.reorganize(p, node)[1]
-    print(s)
+    print("S:\n", s)
+    print("V:\n", test_tp.cal_vector(node, p, q, s))
 
 # generate trajectory figures
 figure = Figure(theme='light')
