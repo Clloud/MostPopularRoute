@@ -132,10 +132,21 @@ class TransferProbability:
             matrix_result = new_a
         return matrix_result
 
-    # 计算t步之内的概率，这里设置t为transfer network的直径
+    # 计算t步之内的概率，这里设置t为transfer network的直径（利用Floyd算法）
     def step_t(self):
-        traj_len = [len(traj) for traj in self.trajectories.values()]
-        return max((traj_len)) - 1
+        edge_matrix_len = len(self.edges)
+        edge_weight = [[sys.maxsize for j in range(edge_matrix_len)] for i in range(edge_matrix_len)]
+        for i in range(edge_matrix_len):
+            edge_weight[i][i] = 0
+            for j in range(edge_matrix_len):
+                if self.edges[i][j] != -1 and i != j:
+                    edge_weight[i][j] = 1
+        for k in range(edge_matrix_len):
+            for i in range(edge_matrix_len):
+                for j in range(edge_matrix_len):
+                    if edge_weight[i][j] > edge_weight[i][k] + edge_weight[k][j]:
+                        edge_weight[i][j] = edge_weight[i][k] + edge_weight[k][j]
+        return max(max(edge_weight))
 
     # 列向量V
     def cal_vector(self, d, p, q, s):
