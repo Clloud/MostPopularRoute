@@ -9,6 +9,7 @@ verify_ssl = true
 rtree = "*"
 matplotlib = "*"
 numpy = "*"
+sortedcontainers = "*"
 
 [requires]
 python_version = "3.6"

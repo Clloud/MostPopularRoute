@@ -58,5 +58,5 @@ class Config_3:
     RADIUS = SCALING_FACTOR * \
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
-class Config(Config_2):
+class Config(Config_1):
     pass
