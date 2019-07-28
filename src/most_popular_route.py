@@ -6,10 +6,12 @@ class MostPopularRoute:
         self.edges = network.edges
     
     def search(self, start, destination):
-        """Find the most popular route from start node to destination node.
+        """
+        Find the most popular route from start node to destination node.
 
         :param int start: the start node index
         :param int destination: the destination node index
+        :return: the most popular route from the given s to d
 
         """
         # for node in self.nodes:

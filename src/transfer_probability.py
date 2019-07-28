@@ -15,8 +15,16 @@ class TransferProbability:
             p = self.create_transition_matrix(node)
             self.reorganize(p, node)
             q, s = self.reorganize(p, node)
-            # q, s = self.acquire(p)
             node.vector = self.cal_vector(node, p, q, s)
+    
+    # 创建P矩阵
+    def create_transition_matrix(self, d):
+        p = np.zeros((len(self.nodes), len(self.nodes)), dtype=float)
+        p_row, p_col = p.shape[0], p.shape[1]
+        for row in range(p_row):
+            for col in range(p_col):
+                p[row][col] = self.transition_probability(d, self.nodes[row], self.nodes[col])
+        return p
 
     def transition_probability(self, d, nodei, nodej):
         # nodei is an absorbing state and i=j
@@ -99,29 +107,31 @@ class TransferProbability:
         p_y = point1.longitude + (point2.longitude - point1.longitude) * r
         return math.sqrt((d.latitude - p_x) ** 2 + (d.longitude - p_y) ** 2)
 
-    # 创建P矩阵
-    def create_transition_matrix(self, d):
-        p = np.zeros((len(self.nodes), len(self.nodes)), dtype=float)
-        p_row, p_col = p.shape[0], p.shape[1]
-        for row in range(p_row):
-            for col in range(p_col):
-                p[row][col] = self.transition_probability(d, self.nodes[row], self.nodes[col])
-        return p
-
-    # 重构P矩阵，获得Q矩阵和S矩阵
     def reorganize(self, p, d):
-        ABS = [node for node in self.nodes if
-               (node == d or self.edges[self.nodes.index(node)] == [-1 for j in range(len(self.edges))])]
-        TR = [node for node in self.nodes if
-              not (node == d or self.edges[self.nodes.index(node)] == [-1 for j in range(len(self.edges))])]
-        p_lefttop = p[np.ix_([self.nodes.index(tr) for tr in TR], [self.nodes.index(tr) for tr in TR])]
-        p_leftbottom = p[np.ix_([self.nodes.index(ab) for ab in ABS], [self.nodes.index(tr) for tr in TR])]
-        p_righttop = p[np.ix_([self.nodes.index(tr) for tr in TR], [self.nodes.index(ab) for ab in ABS])]
-        p_rightbottom = p[np.ix_([self.nodes.index(ab) for ab in ABS], [self.nodes.index(ab) for ab in ABS])]
-        return p_lefttop, p_righttop
+        """
+        Reorgnize matrix P to canoical form by grouping 
+        absorbing states into ABS and transient states into TR.
 
-    def acquire(self, p):
-        pass
+        :param np.array p: matrix P
+        :param Point d: the destination node
+        :return: matrix Q(TR * TR), matrix S(TR * ABS)
+
+        """
+        ABS = []
+        TR = []
+        absorbing_state = [-1 for j in range(len(self.edges))]
+        for index, node in enumerate(self.nodes):
+            if node == d or self.edges[index] == absorbing_state:
+                ABS.append(index)
+            else:
+                TR.append(index)
+        
+        p_left_top = p[np.ix_(TR, TR)]
+        p_left_bottom = p[np.ix_(ABS, TR)]
+        p_right_top = p[np.ix_(TR, ABS)]
+        p_right_bottom = p[np.ix_(ABS, ABS)]
+
+        return p_left_top, p_right_top
 
     # 矩阵乘方
     def matrix_multiply(self, a, n):

@@ -38,22 +38,20 @@ def main():
 
     # derive transfer probability
     tp = TransferProbability(network)
-    tp.derive()
-    # test_tp = TransferProbability(network)
-    # for node in test_tp.nodes:
-    #     print("\n")
-    #     print("node", test_tp.nodes.index(node), ":", (node.latitude, node.longitude))
-    #     p = test_tp.create_transition_matrix(node)
-    #     print("P:\n", p)
-    #     q = test_tp.reorganize(p, node)[0]
-    #     print("Q:\n", q)
-    #     s = test_tp.reorganize(p, node)[1]
-    #     print("S:\n", s)
-    #     print("V:\n", test_tp.cal_vector(node, p, q, s))
+    # tp.derive()
+    for node in tp.nodes:
+        print("\n")
+        print("node", tp.nodes.index(node), ":", (node.latitude, node.longitude))
+        p = tp.create_transition_matrix(node)
+        print("P:\n", p)
+        q, s = tp.reorganize(p, node)
+        print("Q:\n", q)
+        print("S:\n", s)
+        print("V:\n", tp.cal_vector(node, p, q, s))
 
     # search the most popular route
-    mpr = MostPopularRoute(network)
-    result = mpr.search(0, 4)
+    # mpr = MostPopularRoute(network)
+    # result = mpr.search(0, 4)
 
     # generate trajectory figures
     # figure = Figure(theme='light')
