@@ -58,5 +58,17 @@ class Config_3:
     RADIUS = SCALING_FACTOR * \
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
+
 class Config(Config_3):
-    pass
+    __attr__ = ['DATASET_ROOT_DIR', 'DATASET_SCALE', 'TRAJACTORY_SCALE', 'RANGE',
+        'GROUP_SIZE_THRESHOLD', 'COHERENCE_THRESHOLD', 'SCALING_FACTOR', 
+        'TURNING_ALPHA', 'TURNING_BETA', 'RADIUS']
+
+    def __str__(self):
+        s = ""
+        for attr in self.__attr__:
+            s += attr + ' ' + str(getattr(self, attr)) + '\n'
+        return s
+
+    def __repr__(self):
+        return self.__str__()

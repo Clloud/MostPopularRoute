@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-a = list()
+
 class Figure:
     def __init__(self, theme="light", width=15, height=7):
         if theme == "dark":
