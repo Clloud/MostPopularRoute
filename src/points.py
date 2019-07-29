@@ -2,8 +2,8 @@ import math
 from rtree import index
 
 class Points:
-    def __init__(self, data=[]):
-        self.data = data
+    def __init__(self):
+        self.data = []
         self.index = 0
         self.rtree_index = index.Index()
     
@@ -22,25 +22,21 @@ class Points:
 
     def append(self, p):
         self.data.append(p)
-        self.rtree_index.insert(self.index, (p.latitude, p.longitude, p.latitude, p.longitude))
+        self.rtree_index.insert(self.index, 
+            (p.latitude, p.longitude, p.latitude, p.longitude))
         self.index += 1
 
     def range_query(self, point, radius):
+        """
+        Query all points within radius through r-tree index.
+
+        :param Point point: the center point
+        :param float radius
+        :return: a list of points
+        
+        """
         index_list = list(self.rtree_index.intersection(
             (point.latitude - radius, point.longitude - radius,
             point.latitude + radius, point.longitude + radius)))
         result = [self.data[i] for i in index_list]
         return result
-
-    # def range_query(self, point, radius):
-    #     result = []
-    #     for pt in self.data:
-    #         if self.distance(pt, point) <= radius and (not pt.classified):
-    #             result.append(pt)
-    #     return result
-    
-    # @staticmethod
-    # def distance(p, q):
-    #     delta_x = p.latitude - q.latitude
-    #     delta_y = p.longitude - q.longitude
-    #     return math.sqrt(delta_x ** 2 + delta_y ** 2)

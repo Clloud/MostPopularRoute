@@ -4,6 +4,10 @@ from config import Config
 import os
 
 class Preprocessor:
+    """
+    Derive trajectory points from raw data file
+    """
+
     def __init__(self, root_path, scale):
         # GPS trajectory points
         self.points = Points()
@@ -34,6 +38,12 @@ class Preprocessor:
                             break
     
     def __get_point(self, data, trajectory_id):
+        """
+        Get points' information from trajectory file.
+
+        :param file data: trajectory data file
+        :param int trajectory_id
+        """
         temp = data.readlines()
         for index in range(len(temp)):
             if index < 6:
@@ -53,7 +63,13 @@ class Preprocessor:
                 self.points.append(point)
 
     def __filter(self, point):
-        # check if the point is in the given area
+        """
+        Check if the point is within the range.
+
+        :param Point point
+        :return: boolean
+
+        """
         if not Config.RANGE['status']:
             return True
         else:

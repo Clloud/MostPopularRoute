@@ -4,6 +4,10 @@ import math
 import time
 
 class Cluster:
+    """
+    Find road intersections(clusters) from trajectory points through 
+    coherence expanded algorithm.
+    """
     def __init__(self, points):
         self.points = points
         self.coherences = []
@@ -22,11 +26,11 @@ class Cluster:
 
     def expand(self, point):
         result = set()
-        # to save points that has been checked
+        # save points that has been checked
         searched = set()
-        # point.id
+        # save point.id
         seeds = deque()
-        # point
+        # save point obejects to be checked
         seeds_dict = dict()
 
         searched.add(point.id)
@@ -37,7 +41,8 @@ class Cluster:
         while (len(seeds)):
             seed = seeds_dict[seeds.popleft()]
             seeds_dict.pop(seed.id)
-
+            
+            # find points nearby
             points = self.points.range_query(seed, Config.RADIUS)
             for pt in points:
                 if self.__calculate_coherence(seed, pt) >= Config.COHERENCE_THRESHOLD \
@@ -53,7 +58,6 @@ class Cluster:
     def __calculate_coherence(self, p, q):
         coherence = math.exp(- (self.__distance(p, q) / Config.SCALING_FACTOR) ** Config.TURNING_ALPHA) \
             * (self.__angle_sin_value(p, q) ** Config.TURNING_BETA)
-        # print("{}\n{}\n{}\n".format(p, q, coherence))
         self.coherences.append(coherence)
         return coherence
 

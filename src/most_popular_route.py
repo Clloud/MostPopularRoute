@@ -7,17 +7,15 @@ class MostPopularRoute:
     
     def search(self, start, destination):
         """
-        Find the most popular route from start node to destination node.
+        Find the most popular route from start node to destination node 
+        through Maximum Probability Product algorithm which is similar to
+        Dijkstra's shortest path algorithm.
 
         :param int start: the start node index
         :param int destination: the destination node index
         :return: the most popular route from the given s to d
 
         """
-        # for node in self.nodes:
-        #     print("node", self.nodes.index(node), ":", (node.latitude, node.longitude))
-        #     print(node.vector)
-
         # attribute L records the maximum ρ() value of the route from the 
         # start node s to node ni
         for node in self.nodes:
@@ -57,7 +55,7 @@ class MostPopularRoute:
     def popularity(self, node, destination):
         """
         Get the popularity indicator of a transfer node with respect to
-        destination 
+        destination.
 
         :param int node: transfer node index
         :param int destination: destination node index
@@ -70,7 +68,7 @@ class MostPopularRoute:
 
     def get_route(self, node_index):
         """
-        Get the most popular route from s to d
+        Get the most popular route from s to d.
 
         :param int node_index: the destination node index
         :return: transfer nodes' index list

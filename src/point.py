@@ -15,10 +15,23 @@ class Point:
         self.classified = False
 
     def __str__(self):
-        return "Trajectory {} Point {} (longitude,latitude): ({}, {}), moving_direction: {}".format(
-            self.trajectory_id, self.id, self.longitude, self.latitude, self.moving_direction)
+        return "Trajectory {} Point {} (longitude,latitude): ({}, {}), \
+            moving_direction: {}".format(
+            self.trajectory_id,
+            self.id,
+            self.longitude,
+            self.latitude, 
+            self.moving_direction)
 
     def calculate_moving_direction(self, latitude, longitude):
+        """
+        Calculate current point's moving direction. 
+        e.g. Pi and Pi+1 are adejcent points from the same trajectory,
+        we denote Pi's moving direction as vector<PiPi+1>.
+        
+        :param float latitude: next point's latitude
+        :param float longitude: next point's longitude
+        """
         x = latitude - self.latitude
         y = longitude - self.longitude
         if x == 0 and y == 0:
