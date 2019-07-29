@@ -4,24 +4,35 @@ root_path = os.path.split(os.path.abspath(os.path.dirname(__file__)))[0]
 src_path = root_path + '\\src'
 sys.path.append(src_path)
 
-from transfer_network import TransferNetwork
+from config import Config
+from preprocessor import Preprocessor
 from point import Point
 from points import Points
+from cluster import Cluster
+from transfer_network import TransferNetwork
 
-points = Points([
-    Point(1, 3, 1), Point(3, 1, 1), Point(1, 1, 2), Point(2, 2, 2),
-    Point(5, 4, 2), Point(6, 3, 2), Point(6, 5, 3), Point(5, 4, 3),
-    Point(3, 0, 1), Point(4, -1, 1), Point(4, 0, 3), Point(2, -2, 3)])
-network = TransferNetwork(Points,[
-        [Point(1, 3, 1), Point(3, 1, 1), Point(1, 1, 2), Point(2, 2, 2)],
-        [Point(5, 4, 2), Point(6, 3, 2), Point(6, 5, 3), Point(5, 4, 3)],
-        [Point(3, 0, 1), Point(4, -1, 1), Point(4, 0, 3), Point(2, -2, 3)]
-    ])
 
-for node in network.nodes:
-    print(node)
+# get points from trajectories
+points = Preprocessor(
+    Config.DATASET_ROOT_DIR, 
+    Config.DATASET_SCALE).get_points()
 
-for i in range(len(network.edges)):
-    for j in range(len(network.edges)):
-        if network.edges[i][j] != -1:
-            print("edge: ({}, {}) trajectory_id: {}".format(i, j, network.edges[i][j]))
+# use coherence expanded algorithm to form clusters
+clusters = Cluster(points).coherence_expanding()
+network = TransferNetwork(points, clusters)
+
+def show_transfer_edges(network):
+    print(end="\t")
+    for i in range(len(network.edges)):
+        print(" {}\t".format(i), end="")
+    print()
+    for i in range(len(network.edges)):
+        print(i, end="\t")
+        for j in range(len(network.edges)):
+            print("{}\t".format(network.edges[i][j]), end="")
+        print("\n")
+
+    for key, value in network.trajectories.items():
+        print(key, value)
+
+show_transfer_edges(network)

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
-
+a = list()
 class Figure:
-    def __init__(self, theme="light"):
+    def __init__(self, theme="light", width=15, height=7):
         if theme == "dark":
             # dark theme
             self.background = "#2A323D"
@@ -18,10 +18,12 @@ class Figure:
         self.default_size = 150
         self.default_markersize = 150
         self.edge_color = "none"
-        plt.figure(facecolor=self.background, figsize=(15, 7))
+        plt.figure(facecolor=self.background, figsize=(width, height))
 
     def scatter(self, points, color='', marker='o', alpha=1):
-        # draw points distribution graph
+        """
+        Draw points distribution graph.
+        """
         plt.xlabel("longitude", fontsize=11, color=self.font_color)
         plt.ylabel("latitude", fontsize=11, color=self.font_color)
         plt.tick_params(axis="both", which="major",
@@ -41,7 +43,9 @@ class Figure:
         return self
 
     def network(self, network, color=""):
-        # draw transfer network graph
+        """
+        Draw transfer network graph.
+        """
         plt.xlabel("longitude", fontsize=11, color=self.font_color)
         plt.ylabel("latitude", fontsize=11, color=self.font_color)
         plt.tick_params(axis="both", which="major",
@@ -63,7 +67,10 @@ class Figure:
         return self
 
     def scatter_and_network(self, points, network, cluster_points=[]):
-        # draw points distribution graph and transfer network graph on the same figure
+        """
+        Draw points distribution graph and transfer network graph on the 
+        same figure.
+        """
         plt.subplot(121, facecolor=self.background)
         plt.title("Trajectory Points", fontsize=16, color=self.font_color)
         self.scatter(points)
@@ -74,6 +81,25 @@ class Figure:
         self.scatter(points, color="#238BC1")        
         self.network(network, color="#DC143C")
 
+        return self
+
+    def most_popular_route(self, points, network, route):
+        plt.subplot(121, facecolor=self.background)
+        plt.title("Transfer Network", fontsize=16, color=self.font_color)
+        self.scatter(points, color="#238BC1")        
+        self.network(network, color="#DC143C")
+
+        plt.subplot(122, facecolor=self.background)
+        plt.title("Most Popular Route", fontsize=16, color=self.font_color)
+        self.scatter(points, color="#ffffff")
+        self.network(network, color="#555555")
+        for i in range(len(route) - 1):
+            x1 = network.nodes[route[i]].longitude
+            x2 = network.nodes[route[i+1]].longitude
+            y1 = network.nodes[route[i]].latitude
+            y2 = network.nodes[route[i+1]].latitude
+            plt.plot([x1, x2], [y1, y2], '-s', color="#DC143C",
+                linewidth=2.5, markersize=7)
         return self
 
     def show(self):

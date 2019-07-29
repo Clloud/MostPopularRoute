@@ -28,7 +28,9 @@ def process():
 
 
 def report(points, clusters, network, coherences, cluster_points, execute_time):
-    # generate configuration text and result analysis
+    """
+    generate configuration text and result analysis
+    """
     config_text = ">> CONFIGURATIONS\n"
     config_text += "DATASET_ROOT_DIR: '{}'\n".format(Config.DATASET_ROOT_DIR)
     config_text += "DATASET_SCALE = {}\n".format(Config.DATASET_SCALE)
@@ -59,13 +61,17 @@ def report(points, clusters, network, coherences, cluster_points, execute_time):
 
 
 def graph(points, network, cluster_points, save_path):
-    # generate analysis graph
+    """
+    generate analysis graph
+    """
     figure = Figure(theme='light')
     figure.scatter_and_network(points, network, cluster_points).save(save_path).show()
 
 
 def save_to_file(analysis, coherences, save_path):
-    # save analysis to file
+    """
+    save analysis to file
+    """
     with open("{}\\analysis.txt".format(save_path), "w") as file:
         file.write(analysis)
 
