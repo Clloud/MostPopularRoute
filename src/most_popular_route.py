@@ -33,7 +33,7 @@ class MostPopularRoute:
         while priority_queue:
             # extract node u with maximum L value
             u = priority_queue.pop()
-            u_index = self.__index(u)
+            u_index = self.nodes.index(u) 
 
             # find destination node and return the most popular route
             if u_index == destination:
@@ -54,19 +54,30 @@ class MostPopularRoute:
                         priority_queue.add(v)
             scanned_nodes.add(u)
 
-    def popularity(self, v, destination):
-        # TODO
-        return 0
+    def popularity(self, node, destination):
+        """
+        Get the popularity indicator of a transfer node with respect to
+        destination 
+
+        :param int node: transfer node index
+        :param int destination: destination node index
+        :return: the transfer probability
+        """
+        if node == destination:
+            return 1
+        vector = self.nodes[destination].vector
+        return vector[node] if node < destination else vector[node - 1]
 
     def get_route(self, node_index):
-        route = []
-        route.append(node_index)
+        """
+        Get the most popular route from s to d
+
+        :param int node_index: the destination node index
+        :return: transfer nodes' index list
+        """
+        route = [node_index]
         node = self.nodes[node_index]
         while hasattr(node, 'parent_index'):
             route.append(node.parent_index)
             node = self.nodes[node.parent_index]
-        return route
-
-    def __index(self, node):
-        return self.nodes.index(node)          
-
+        return route      
