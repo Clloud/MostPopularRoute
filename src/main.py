@@ -37,6 +37,10 @@ def main():
             "network": network
         })
 
+    # show the distribution of transfer probability
+    figure = Figure(width=8)
+    figure.transfer_probability(network, 8).show()
+
     # search the most popular route
     mpr = MostPopularRoute(network)
     route = mpr.search(0, 4)

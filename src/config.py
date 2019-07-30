@@ -59,7 +59,7 @@ class Config_3:
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 
-class Config(Config_3):
+class Config(Config_2):
     __attr__ = ['DATASET_ROOT_DIR', 'DATASET_SCALE', 'TRAJACTORY_SCALE', 'RANGE',
         'GROUP_SIZE_THRESHOLD', 'COHERENCE_THRESHOLD', 'SCALING_FACTOR', 
         'TURNING_ALPHA', 'TURNING_BETA', 'RADIUS']

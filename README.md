@@ -29,7 +29,7 @@ RANGE = {                               # To pick trajectory points within the r
 Coherence expanding algorithms are used to construct the trasfer network from a set of raw trajectory points.
 
 ### Step 1
-Set parameters for coherence expanding algorithm. These variables have to be carefully adjusted according to different dataset. 
+Set parameters for *Coherence Expanding Algorithm*. These variables have to be carefully adjusted according to different dataset. 
 
 Starting at line 35 in ```config.py```:
 ```
@@ -54,3 +54,20 @@ Analysis graph and reports are generated to help adjust the parameters
 **Figure 2** *experiment on real dataset with 1154 points, 60 clusters are found*
 
 ## Deriving Transfer Probability
+Through the *Coherence Expanding Algorithm*, we can retrieve a transfer network *G(N,E)* from raw trajectories. For each transfer node *n<sub>i</sub>* , we calculate the vector *V* assuming it as the destination. 
+
+We draw transfer nodes by rectangles with the size propotional to their transfer probabilities. The destination is shown as a red rectangle.
+
+![](assets/readme-3.png)
+**Figure 3** *Distribution of transfer probability*
+
+## Searching the Most Popular Route
+Through mining transfer network and the derivation of transfer probabilities, we acquire a directional transfer network *G(N,E)* with a set of transfer probability vectors(*V*).
+
+Through the *Maximum Probability Algorithm*, we can discover the most popular route from the given start node A to end node B.
+
+![](assets/readme-4.png)
+**Figure 4** *MPR from node A to node B*
+
+![](assets/readme-5.png)
+**Figure 5** *MPR from node A to node B*

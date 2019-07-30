@@ -31,4 +31,4 @@ for node in tp.nodes:
     q, s = tp.reorganize(p, node)
     print("Q:\n", q)
     print("S:\n", s)
-    print("V:\n", tp.cal_vector(node, p, q, s))
+    print("V:\n", tp.cal_vector(node, p, q))
