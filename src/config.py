@@ -1,8 +1,8 @@
 import math
 
-        
+
 class Config_1:
-    DATASET_ROOT_DIR = 'E:/Files/Project/2019暑期科研/test1/Data'  # The data set root directory
+    DATASET_ROOT_DIR = '../data/test1/Data'  # The data set root directory
     DATASET_SCALE    = 0                # How many users' trajectory data are choosed
     TRAJACTORY_SCALE = 20               # How many trajectories are choosed per user
     RANGE = {                           # To pick trajectory points within the range
@@ -20,8 +20,7 @@ class Config_1:
 
 
 class Config_2:
-
-    DATASET_ROOT_DIR = 'E:/Files/Project/2019暑期科研/test2/Data'  # The data set root directory
+    DATASET_ROOT_DIR = '../data/test2/Data'  # The data set root directory
     DATASET_SCALE    = 3                # How many users' trajectory data are choosed
     TRAJACTORY_SCALE = 4                # How many trajectories are choosed per user
     RANGE = {                           # To pick trajectory points within the range
@@ -42,7 +41,7 @@ class Config_2:
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 class Config_3:
-    DATASET_ROOT_DIR = 'E:/Files/Project/2019暑期科研/test3/Data'  # The data set root directory
+    DATASET_ROOT_DIR = '../data/test3/Data'  # The data set root directory
     DATASET_SCALE    = 0                # How many users' trajectory data are choosed
     TRAJACTORY_SCALE = 20               # How many trajectories are choosed per user
     RANGE = {                           # To pick trajectory points within the range
@@ -59,7 +58,7 @@ class Config_3:
         ((-math.log(COHERENCE_THRESHOLD)) ** (1 / TURNING_ALPHA))
 
 
-class Config(Config_2):
+class Config(Config_3):
     __attr__ = ['DATASET_ROOT_DIR', 'DATASET_SCALE', 'TRAJACTORY_SCALE', 'RANGE',
         'GROUP_SIZE_THRESHOLD', 'COHERENCE_THRESHOLD', 'SCALING_FACTOR', 
         'TURNING_ALPHA', 'TURNING_BETA', 'RADIUS']

@@ -13,7 +13,7 @@ The script takes *.plt files as input. The dataset path and some other variables
 Starting at line 24 in ```config.py```:
 
 ```
-DATASET_ROOT_DIR = '../../test2/Data'   # The data set root directory
+DATASET_ROOT_DIR = '../data/test2/Data'   # The data set root directory
 DATASET_SCALE    = 3                    # How many users' trajectory data are choosed
 TRAJACTORY_SCALE = 4                    # How many trajectories are choosed per user
 RANGE = {                               # To pick trajectory points within the range
